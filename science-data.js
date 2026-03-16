@@ -454,6 +454,65 @@ const SCIENCE_MASTER_TOPICS = [
   ["Technology", "Data Science", "Big Data", "Core", "Big data refers to very large, complex datasets requiring scalable storage and analysis tools.", ["big data", "data science", "analytics", "technology", "computing"]]
 ];
 
+const SCIENCE_TOPIC_BANK = {
+  Physics: {
+    Mechanics: ["Projectile Motion", "Rotational Dynamics", "Simple Harmonic Motion", "Elasticity", "Fluid Mechanics", "Torque", "Center of Mass", "Conservation of Energy"],
+    "Thermal Physics": ["Heat Engines", "Specific Heat", "Thermal Expansion", "Ideal Gas Law", "Kinetic Theory", "Phase Changes", "Carnot Cycle", "Thermal Conductivity"],
+    Electromagnetism: ["Coulomb's Law", "Gauss's Law", "Electromagnetic Induction", "Alternating Current", "Transformers", "Lorentz Force", "Faraday's Law", "Electromagnetic Waves"],
+    Optics: ["Interference", "Diffraction", "Polarization", "Fiber Optics", "Microscopes", "Telescopes", "Lens Formula", "Optical Instruments"],
+    "Modern Physics": ["De Broglie Waves", "Bohr Model", "Quantum Tunneling", "Wave-Particle Duality", "Special Relativity", "General Relativity", "Compton Effect", "Matter Waves"],
+    "Nuclear Physics": ["Half Life", "Binding Energy", "Nuclear Reactors", "Radiation Detection", "Particle Accelerators", "Neutrinos", "Hadron Physics", "Beta Decay"]
+  },
+  Chemistry: {
+    Organic: ["Alkanes", "Alkenes", "Alkynes", "Alcohols", "Aldehydes", "Ketones", "Carboxylic Acids", "Polymers"],
+    Inorganic: ["S-Block Elements", "P-Block Elements", "D-Block Elements", "Metallurgy", "Hydrogen", "Chemical Periodicity", "Coordination Chemistry", "Crystal Field Theory"],
+    "Physical Chemistry": ["Surface Chemistry", "Chemical Kinetics", "States of Matter", "Solid State", "Colligative Properties", "Adsorption", "Electrochemistry", "Chemical Thermodynamics"],
+    "Analytical Chemistry": ["Qualitative Analysis", "Quantitative Analysis", "Volumetric Analysis", "Instrumental Analysis", "Mass Spectrometry", "Colorimetry", "Sampling Analysis", "Error Analysis"],
+    Biochemistry: ["Carbohydrates", "Proteins", "Lipids", "Nucleic Acids", "Metabolism", "ATP", "Enzyme Inhibition", "Biochemical Pathways"],
+    "Materials Chemistry": ["Ceramics", "Alloys", "Smart Materials", "Biomaterials", "Fuel Cells", "Catalysts", "Battery Materials", "Corrosion Control"]
+  },
+  Biology: {
+    "Cell and Molecular Biology": ["Cell Cycle", "Cell Signaling", "ATP Synthesis", "Ribosomes", "Endoplasmic Reticulum", "Golgi Apparatus", "Cytoskeleton", "Membrane Transport"],
+    Genetics: ["DNA Repair", "RNA Processing", "Mendelian Genetics", "Inheritance Patterns", "Genomics", "Proteomics", "Gene Regulation", "Biotechnology"],
+    Ecology: ["Population Ecology", "Biomes", "Ecological Succession", "Carbon Cycle", "Nitrogen Cycle", "Symbiosis", "Habitat Fragmentation", "Conservation Biology"],
+    "Human Biology": ["Digestive System", "Endocrine System", "Muscular System", "Skeletal System", "Reproductive System", "Homeostasis", "Body Fluids", "Nutrition"],
+    "Plant Biology": ["Xylem and Phloem", "Plant Reproduction", "Seed Germination", "Phototropism", "Plant Tissues", "Stomata", "Mineral Nutrition", "Plant Ecology"],
+    Microbiology: ["Fungi", "Protists", "Antibiotics", "Pathogens", "Microbial Genetics", "Fermentation", "Immunology", "Disease Transmission"]
+  },
+  Astronomy: {
+    "Planetary Science": ["Mercury", "Venus", "Earth", "Jupiter", "Saturn", "Uranus", "Neptune", "Planetary Atmospheres"],
+    Astrophysics: ["Star Clusters", "Quasars", "Accretion Disks", "Interstellar Medium", "White Dwarfs", "Spectral Lines", "Stellar Nucleosynthesis", "Gravitational Lensing"],
+    Cosmology: ["Redshift", "Inflation Theory", "Structure Formation", "Cosmic Expansion", "Observable Universe", "Hubble Law", "Age of Universe", "Large Scale Structure"],
+    "Stellar Astronomy": ["Main Sequence Stars", "Red Giants", "Brown Dwarfs", "Binary Stars", "Variable Stars", "Star Lifecycles", "Supernova Remnants", "Stellar Spectra"],
+    "Galactic Astronomy": ["Spiral Galaxies", "Elliptical Galaxies", "Galaxy Clusters", "Dark Halos", "Intergalactic Medium", "Galactic Rotation", "Active Galactic Nuclei", "Local Group"],
+    "Space Exploration": ["Rovers", "Space Stations", "Launch Vehicles", "Moon Missions", "Mars Missions", "Deep Space Probes", "Satellite Navigation", "Earth Observation"]
+  },
+  Mathematics: {
+    Algebra: ["Linear Equations", "Sequences", "Binomial Theorem", "Complex Numbers", "Relations", "Sets", "Inequalities", "Determinants"],
+    Analysis: ["Differentiability", "Integration Techniques", "Partial Derivatives", "Multivariable Calculus", "Vector Calculus", "Continuity Tests", "Taylor Series", "Fourier Series"],
+    Geometry: ["Conic Sections", "3D Geometry", "Transformations", "Euclidean Geometry", "Coordinate Planes", "Vectors in Geometry", "Area and Volume", "Geometric Proofs"],
+    Statistics: ["Mean Median Mode", "Standard Deviation", "Hypothesis Testing", "Correlation", "Probability Distributions", "Statistical Inference", "Confidence Intervals", "Sampling Theory"],
+    "Number Theory": ["Divisibility Rules", "Diophantine Equations", "Prime Factorization", "Congruences", "Fermat's Theorem", "Euler Totient", "Cryptography", "Perfect Numbers"],
+    "Applied Mathematics": ["Game Theory", "Operations Research", "Linear Programming", "Chaos Theory", "Mathematical Modeling", "Computational Methods", "Financial Mathematics", "Graph Theory"]
+  },
+  "Earth Science": {
+    Geology: ["Rock Cycle", "Sedimentation", "Mountain Formation", "Magma", "Mineralogy", "Petrology", "Geologic Time", "Tectonic Stress"],
+    "Atmospheric Science": ["Cloud Formation", "Cyclones", "Anticyclones", "Jet Streams", "Humidity", "Atmospheric Pressure", "Climate Zones", "Weather Forecasting"],
+    Oceanography: ["Coral Reefs", "Tides", "Salinity", "Ocean Layers", "Marine Geology", "Upwelling", "El Nino", "Sea Level Rise"],
+    Hydrology: ["Rivers", "Watersheds", "Floods", "Aquifers", "Runoff", "Evapotranspiration", "Water Resources", "Drought"],
+    "Environmental Science": ["Biodiversity Loss", "Climate Change", "Waste Management", "Ecosystem Services", "Deforestation", "Pollutants", "Environmental Policy", "Carbon Footprint"],
+    Geophysics: ["Seismic Waves", "Earth's Core", "Mantle Convection", "Gravity Field", "Remote Sensing", "Volcanic Monitoring", "Geothermal Energy", "Geomagnetic Reversal"]
+  },
+  Technology: {
+    "Computer Science": ["Software Engineering", "Web Development", "Mobile Computing", "Distributed Systems", "Compilers", "Artificial Neural Networks", "Machine Vision", "Natural Language Processing"],
+    Robotics: ["Industrial Robots", "Robot Kinematics", "Path Planning", "Computer Vision", "Humanoid Robots", "Drone Systems", "SLAM", "Actuators"],
+    Biotechnology: ["Gene Therapy", "Bioprocess Engineering", "Vaccinology", "Cloning", "Tissue Engineering", "Pharmacogenomics", "Biomedical Devices", "Synthetic Genomics"],
+    "Materials Science": ["Polymers", "Nanocomposites", "Shape Memory Alloys", "Conductive Materials", "Thin Films", "Metamaterials", "Photonic Materials", "Superconductors"],
+    Nanotechnology: ["Nanowires", "Carbon Nanotubes", "Nanoelectronics", "Nanomedicine", "Surface Nanoscience", "Nano Sensors", "Nano Fabrication", "Molecular Machines"],
+    "Data Science": ["Machine Vision", "Data Mining", "Predictive Modeling", "Deep Learning", "Recommendation Systems", "Data Engineering", "Time Series Analysis", "Feature Engineering"]
+  }
+};
+
 const SUBJECT_CONFIG = {
   Physics: {
     branches: ["Mechanics", "Thermal Physics", "Electromagnetism", "Optics", "Modern Physics", "Nuclear Physics"],
@@ -697,6 +756,35 @@ function createExpandedTopic([subject, branch, title, level, summary, keywords])
   };
 }
 
+function createBankTopics() {
+  const levels = ["Foundational", "Core", "Advanced"];
+  const output = [];
+
+  Object.entries(SCIENCE_TOPIC_BANK).forEach(([subject, branches]) => {
+    Object.entries(branches).forEach(([branch, topics]) => {
+      topics.forEach((topic, index) => {
+        output.push({
+          title: topic,
+          subject,
+          branch,
+          level: levels[index % levels.length],
+          summary: `${topic} is an important area within ${branch.toLowerCase()} and helps learners explore principles, applications, and scientific understanding in ${subject.toLowerCase()}.`,
+          keywords: [
+            topic.toLowerCase(),
+            subject.toLowerCase(),
+            branch.toLowerCase(),
+            `${topic.toLowerCase()} science`,
+            `${topic.toLowerCase()} basics`
+          ],
+          sourceLinks: buildSourceLinks(subject, topic)
+        });
+      });
+    });
+  });
+
+  return output;
+}
+
 function generateScienceDataset() {
   const generated = [];
   const subjects = Object.keys(SUBJECT_CONFIG);
@@ -727,6 +815,7 @@ function generateScienceDataset() {
     ...SCIENCE_BASE_DATA.map(enrichBaseEntry),
     ...SCIENCE_EXPANDED_TOPICS.map(createExpandedTopic),
     ...SCIENCE_MASTER_TOPICS.map(createExpandedTopic),
+    ...createBankTopics(),
     ...generated
   ];
 }

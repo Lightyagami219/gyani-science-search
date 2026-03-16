@@ -268,6 +268,19 @@ function relatedMatchesQuery(item, normalizedQuery, tokens) {
   return hitCount >= Math.max(1, Math.ceil(tokens.length / 2));
 }
 
+function neighboringTopicMatches(item, exactMatches) {
+  if (!exactMatches.length) {
+    return false;
+  }
+
+  return exactMatches.some((match) => {
+    const sameSubject = item.subject === match.subject;
+    const sameBranch = (item.branch || "") === (match.branch || "");
+    const keywordOverlap = item.keywords.some((keyword) => match.keywords.includes(keyword));
+    return sameSubject && (sameBranch || keywordOverlap);
+  });
+}
+
 function scoreItem(item, tokens) {
   if (!tokens.length) {
     return 1;
@@ -745,7 +758,10 @@ function renderResults() {
     ? SCIENCE_DATA.filter((item) => {
       const subjectMatch = activeSubject === "All" || item.subject === activeSubject;
       const alreadyIncluded = exactMatches.some((match) => match.title === item.title);
-      return subjectMatch && !alreadyIncluded && relatedMatchesQuery(item, normalizedQuery, tokens);
+      return subjectMatch && !alreadyIncluded && (
+        relatedMatchesQuery(item, normalizedQuery, tokens) ||
+        neighboringTopicMatches(item, exactMatches)
+      );
     }).map((item) => ({
       ...item,
       score: scoreItem(item, tokens) + 25
