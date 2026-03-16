@@ -288,6 +288,56 @@ function primaryLink(item) {
   return preferred || item.sourceLinks[0] || { label: "Search Result", url: "#" };
 }
 
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function renderResultCard(item) {
+  const mainLink = primaryLink(item);
+  const safeTitle = escapeHtml(item.title);
+  const safeSummary = escapeHtml(item.summary);
+  const safeUrl = escapeHtml(mainLink.url);
+  const safeSubject = escapeHtml(item.subject);
+  const safeBranch = escapeHtml(item.branch || item.subject);
+  const safeLevel = escapeHtml(item.level);
+  const safeCategory = escapeHtml(classifyItem(item));
+  const keywordChips = item.keywords
+    .slice(0, 8)
+    .map((keyword) => `<span class="meta-chip">${escapeHtml(keyword)}</span>`)
+    .join("");
+  const sourceLinks = item.sourceLinks
+    .slice(0, 7)
+    .map((link) => `<a href="${escapeHtml(link.url)}" target="_blank" rel="noreferrer">${escapeHtml(link.label)}</a>`)
+    .join("");
+
+  return `
+    <article class="result-card">
+      <div class="result-url">${safeUrl}</div>
+      <a class="result-link" href="${safeUrl}" target="_blank" rel="noreferrer">
+        <div class="result-top">
+          <h3>${safeTitle}</h3>
+          <span class="subject-pill">${safeSubject}</span>
+        </div>
+      </a>
+      <p class="summary">${safeSummary}</p>
+      <div class="meta-list">
+        <span class="meta-chip category">${safeCategory}</span>
+        <span class="meta-chip">${safeLevel}</span>
+        <span class="meta-chip">${safeBranch}</span>
+        ${keywordChips}
+      </div>
+      <div class="links-list">
+        ${sourceLinks}
+      </div>
+    </article>
+  `;
+}
+
 function buildAiAnswer(normalizedQuery, filtered) {
   if (!normalizedQuery || !filtered.length) {
     aiAnswerBox.classList.add("hidden");
@@ -519,33 +569,7 @@ function renderResults() {
   refreshLiveKnowledge(query);
 
   const visibleItems = filtered.slice(0, 120);
-
-  resultsEl.innerHTML = visibleItems.map((item) => `
-    ${(() => {
-      const mainLink = primaryLink(item);
-      return `
-    <article class="result-card">
-      <div class="result-url">${mainLink.url}</div>
-      <a class="result-link" href="${mainLink.url}" target="_blank" rel="noreferrer">
-        <div class="result-top">
-          <h3>${item.title}</h3>
-          <span class="subject-pill">${item.subject}</span>
-        </div>
-      </a>
-      <p class="summary">${item.summary}</p>
-      <div class="meta-list">
-        <span class="meta-chip category">${classifyItem(item)}</span>
-        <span class="meta-chip">${item.level}</span>
-        <span class="meta-chip">${item.branch || item.subject}</span>
-        ${item.keywords.map((keyword) => `<span class="meta-chip">${keyword}</span>`).join("")}
-      </div>
-      <div class="links-list">
-        ${item.sourceLinks.slice(0, 7).map((link) => `<a href="${link.url}" target="_blank" rel="noreferrer">${link.label}</a>`).join("")}
-      </div>
-    </article>
-  `;
-    })()}
-  `).join("");
+  resultsEl.innerHTML = visibleItems.map(renderResultCard).join("");
 }
 
 function syncInputs(value) {
