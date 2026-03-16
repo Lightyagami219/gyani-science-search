@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GYANI Science Search</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="stars stars-a"></div>
+  <div class="stars stars-b"></div>
+  <div class="stars stars-c"></div>
+
+  <div class="page-shell">
+    <section id="homeView" class="home-view">
+      <header class="hero">
+        <p class="eyebrow">Search The Universe Of Science</p>
+
+        <div class="brand-lockup">
+          <div class="logo-crest" aria-label="GYANI brand mark">
+            <img
+              class="logo-image"
+              src="logo.png"
+              alt="GYANI logo"
+              onload="this.nextElementSibling.style.display='none';"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"
+            >
+            <div class="crest-frame">
+              <span class="crest-glyph">G</span>
+              <span class="crest-word">GYANI</span>
+            </div>
+          </div>
+
+          <h1>GYANI</h1>
+          <p class="hero-copy">
+            Search physics, chemistry, biology, space, mathematics, earth science, and technology
+            through a focused science engine with intelligent matching and trusted outbound links.
+          </p>
+        </div>
+
+        <div class="search-stage">
+          <div class="orbit-visual" aria-hidden="true">
+            <div class="earth"></div>
+            <div class="orbit-ring">
+              <div class="satellite"></div>
+            </div>
+          </div>
+
+          <div class="search-stack">
+            <label class="search-label" for="homeSearchInput">Search science like a discovery engine</label>
+            <div class="search-row">
+              <input id="homeSearchInput" type="search" placeholder="Search: black holes, DNA replication, thermodynamics, acids, quantum theory">
+              <button id="homeSearchButton" type="button">Search</button>
+              <button id="curiousButton" type="button" class="ghost-button">I'm Feeling Curious</button>
+            </div>
+            <div id="tagFilters" class="tag-filters" aria-label="Science subject filters"></div>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-grid">
+        <section class="panel summary-panel">
+          <div class="panel-head">
+            <p class="eyebrow">Coverage</p>
+            <h2>Science Map</h2>
+          </div>
+          <div id="stats" class="stats"></div>
+        </section>
+
+        <section class="panel featured-panel">
+          <div class="panel-head">
+            <p class="eyebrow">Quick Launch</p>
+            <h2>Popular Searches</h2>
+          </div>
+          <div id="featuredTopics" class="featured-list"></div>
+        </section>
+      </main>
+    </section>
+
+    <section id="resultsView" class="results-view hidden">
+      <header class="results-topbar panel">
+        <div class="results-brand">
+          <button id="homeButton" type="button" class="logo-mini" aria-label="Go to home">G</button>
+          <span>GYANI</span>
+        </div>
+
+        <div class="results-search-wrap">
+          <input id="resultsSearchInput" type="search" placeholder="Search science topics">
+          <button id="resultsSearchButton" type="button">Search</button>
+          <button id="clearButton" type="button" class="ghost-button">Clear</button>
+          <button id="backToHomeButton" type="button" class="ghost-button">Back To Home</button>
+        </div>
+      </header>
+
+      <main class="results-layout">
+        <aside class="results-sidebar panel">
+          <div class="panel-head">
+            <p class="eyebrow">Refine</p>
+            <h2>Subjects</h2>
+          </div>
+          <div id="resultsFilters" class="results-filters"></div>
+          <div class="panel-head narrow-head">
+            <p class="eyebrow">Coverage</p>
+            <h2>Index</h2>
+          </div>
+          <div id="resultsStats" class="stats"></div>
+        </aside>
+
+        <section class="results-main panel">
+          <section id="aiAnswerBox" class="ai-answer-box hidden">
+            <div class="ai-answer-head">
+              <div>
+                <p class="eyebrow">AI Answer</p>
+                <h2 id="aiAnswerTitle">Quick Explanation</h2>
+              </div>
+              <span class="ai-badge">GYANI AI</span>
+            </div>
+            <p id="aiAnswerSummary" class="ai-summary"></p>
+            <div id="aiAnswerBullets" class="ai-bullets"></div>
+          </section>
+
+          <div class="results-head">
+            <div>
+              <p class="eyebrow">Results</p>
+              <h2 id="resultsTitle">Search Results</h2>
+            </div>
+            <div class="results-meta">
+              <p id="resultsCount" class="results-count"></p>
+              <p id="resultsHint" class="results-hint"></p>
+            </div>
+          </div>
+
+          <div id="results" class="results-list"></div>
+        </section>
+      </main>
+    </section>
+  </div>
+
+  <script src="science-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
