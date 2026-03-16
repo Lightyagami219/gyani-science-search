@@ -16,12 +16,23 @@ const aiAnswerSource = document.getElementById("aiAnswerSource");
 const aiAnswerSummary = document.getElementById("aiAnswerSummary");
 const aiAnswerBullets = document.getElementById("aiAnswerBullets");
 const liveKnowledgeLinks = document.getElementById("liveKnowledgeLinks");
+const searchTabs = document.getElementById("searchTabs");
 const searchInsights = document.getElementById("searchInsights");
 const didYouMeanEl = document.getElementById("didYouMean");
 const categoryChipsEl = document.getElementById("categoryChips");
 const imageSection = document.getElementById("imageSection");
 const imageResults = document.getElementById("imageResults");
 const imageHint = document.getElementById("imageHint");
+const videoSection = document.getElementById("videoSection");
+const videoResults = document.getElementById("videoResults");
+const videoHint = document.getElementById("videoHint");
+const researchSection = document.getElementById("researchSection");
+const researchResults = document.getElementById("researchResults");
+const researchHint = document.getElementById("researchHint");
+const newsSection = document.getElementById("newsSection");
+const newsResults = document.getElementById("newsResults");
+const newsHint = document.getElementById("newsHint");
+const allResultsHead = document.getElementById("allResultsHead");
 const resultsEl = document.getElementById("results");
 const resultsCountEl = document.getElementById("resultsCount");
 const resultsTitleEl = document.getElementById("resultsTitle");
@@ -35,6 +46,7 @@ let activeSubject = "All";
 let query = "";
 let liveKnowledgeRequest = 0;
 let liveImageRequest = 0;
+let activeTab = "all";
 
 function levenshtein(a, b) {
   const rows = a.length + 1;
@@ -236,6 +248,24 @@ function partialMatchesQuery(item, normalizedQuery) {
 
   const tokens = normalizedQuery.split(/\s+/).filter(Boolean);
   return tokens.some((token) => haystack.includes(token));
+}
+
+function relatedMatchesQuery(item, normalizedQuery, tokens) {
+  if (!normalizedQuery) {
+    return false;
+  }
+
+  const haystack = [
+    item.title,
+    item.subject,
+    item.branch || "",
+    item.level,
+    item.summary,
+    ...item.keywords
+  ].join(" ").toLowerCase();
+
+  const hitCount = tokens.filter((token) => haystack.includes(token)).length;
+  return hitCount >= Math.max(1, Math.ceil(tokens.length / 2));
 }
 
 function scoreItem(item, tokens) {
@@ -511,10 +541,44 @@ function fallbackSearchLinks(searchTerm) {
   ];
 }
 
+function setActiveTab(tabName) {
+  activeTab = tabName;
+  searchTabs.querySelectorAll(".search-tab").forEach((button) => {
+    button.classList.toggle("active", button.dataset.tab === tabName);
+  });
+  const showAll = tabName === "all";
+  const showImages = tabName === "images";
+  const showVideos = tabName === "videos";
+  const showResearch = tabName === "research";
+  const showNews = tabName === "news";
+
+  aiAnswerBox.classList.toggle("hidden", !showAll);
+  searchInsights.classList.toggle("hidden", !showAll);
+  allResultsHead.classList.toggle("hidden", !showAll);
+  resultsEl.classList.toggle("hidden", !showAll);
+  imageSection.classList.toggle("hidden", !showImages);
+  videoSection.classList.toggle("hidden", !showVideos);
+  researchSection.classList.toggle("hidden", !showResearch);
+  newsSection.classList.toggle("hidden", !showNews);
+}
+
 function hideImages() {
   imageSection.classList.add("hidden");
   imageResults.innerHTML = "";
   imageHint.textContent = "";
+}
+
+function hideExtraSections() {
+  hideImages();
+  videoSection.classList.add("hidden");
+  researchSection.classList.add("hidden");
+  newsSection.classList.add("hidden");
+  videoResults.innerHTML = "";
+  researchResults.innerHTML = "";
+  newsResults.innerHTML = "";
+  videoHint.textContent = "";
+  researchHint.textContent = "";
+  newsHint.textContent = "";
 }
 
 async function fetchWikipediaImages(searchTerm) {
@@ -577,6 +641,96 @@ async function refreshImages(searchTerm) {
   }
 }
 
+function buildSimpleLinkCard(title, url, summary, badge = "") {
+  return `
+    <article class="result-card">
+      <div class="result-url">${escapeHtml(url)}</div>
+      <a class="result-link" href="${escapeHtml(url)}" target="_blank" rel="noreferrer">
+        <div class="result-top">
+          <h3>${escapeHtml(title)}</h3>
+          ${badge ? `<span class="subject-pill">${escapeHtml(badge)}</span>` : ""}
+        </div>
+      </a>
+      <p class="summary">${escapeHtml(summary)}</p>
+    </article>
+  `;
+}
+
+function refreshVideos(searchTerm) {
+  const trimmed = searchTerm.trim();
+  if (!trimmed) {
+    videoResults.innerHTML = "";
+    return;
+  }
+  const links = [
+    {
+      title: `${trimmed} on YouTube`,
+      url: `https://www.youtube.com/results?search_query=${encodeURIComponent(trimmed)}`,
+      summary: `Video search results and explainers for ${trimmed}.`,
+      badge: "YouTube"
+    },
+    {
+      title: `${trimmed} on Khan Academy`,
+      url: `https://www.khanacademy.org/search?page_search_query=${encodeURIComponent(trimmed)}`,
+      summary: `Educational video and lesson matches for ${trimmed}.`,
+      badge: "Learning"
+    }
+  ];
+  videoHint.textContent = "Video-focused learning links.";
+  videoResults.innerHTML = links.map((item) => buildSimpleLinkCard(item.title, item.url, item.summary, item.badge)).join("");
+}
+
+async function refreshResearch(searchTerm) {
+  const trimmed = searchTerm.trim();
+  if (!trimmed) {
+    researchResults.innerHTML = "";
+    return;
+  }
+  researchHint.textContent = "Live research sources for this topic.";
+  researchResults.innerHTML = buildSimpleLinkCard(
+    `${trimmed} on Google Scholar`,
+    `https://scholar.google.com/scholar?q=${encodeURIComponent(trimmed)}`,
+    `Scholarly articles, citations, and academic references for ${trimmed}.`,
+    "Scholar"
+  );
+  try {
+    const papers = await fetchCrossrefKnowledge(trimmed);
+    if (!papers.length) {
+      return;
+    }
+    researchResults.innerHTML += papers
+      .slice(0, 5)
+      .map((paper) => buildSimpleLinkCard(paper.label, paper.url, `Research paper result for ${trimmed}.`, "Paper"))
+      .join("");
+  } catch (error) {
+    researchHint.textContent = "Research links are limited right now.";
+  }
+}
+
+function refreshNews(searchTerm) {
+  const trimmed = searchTerm.trim();
+  if (!trimmed) {
+    newsResults.innerHTML = "";
+    return;
+  }
+  const links = [
+    {
+      title: `${trimmed} on Google News`,
+      url: `https://news.google.com/search?q=${encodeURIComponent(trimmed)}`,
+      summary: `Recent news coverage and science reporting for ${trimmed}.`,
+      badge: "Google News"
+    },
+    {
+      title: `${trimmed} on Bing News`,
+      url: `https://www.bing.com/news/search?q=${encodeURIComponent(trimmed)}`,
+      summary: `Alternative live news search for ${trimmed}.`,
+      badge: "News"
+    }
+  ];
+  newsHint.textContent = "Live news search links.";
+  newsResults.innerHTML = links.map((item) => buildSimpleLinkCard(item.title, item.url, item.summary, item.badge)).join("");
+}
+
 function renderResults() {
   const normalizedQuery = query.trim().toLowerCase();
   const tokens = normalizedQuery.split(/\s+/).filter(Boolean);
@@ -587,8 +741,18 @@ function renderResults() {
     ...item,
     score: scoreItem(item, tokens)
   })).sort((a, b) => b.score - a.score || a.title.localeCompare(b.title));
+  const relatedMatches = exactMatches.length
+    ? SCIENCE_DATA.filter((item) => {
+      const subjectMatch = activeSubject === "All" || item.subject === activeSubject;
+      const alreadyIncluded = exactMatches.some((match) => match.title === item.title);
+      return subjectMatch && !alreadyIncluded && relatedMatchesQuery(item, normalizedQuery, tokens);
+    }).map((item) => ({
+      ...item,
+      score: scoreItem(item, tokens) + 25
+    })).sort((a, b) => b.score - a.score || a.title.localeCompare(b.title))
+    : [];
   const fallbackMatches = exactMatches.length
-    ? exactMatches
+    ? [...exactMatches, ...relatedMatches]
     : SCIENCE_DATA.filter((item) => {
       const subjectMatch = activeSubject === "All" || item.subject === activeSubject;
       return subjectMatch && partialMatchesQuery(item, normalizedQuery);
@@ -605,7 +769,9 @@ function renderResults() {
       : `${activeSubject} Topics`;
 
   resultsCountEl.textContent = `${filtered.length} result${filtered.length === 1 ? "" : "s"}`;
-  resultsHintEl.textContent = exactMatches.length === 0 && filtered.length > 0
+  resultsHintEl.textContent = exactMatches.length > 0 && relatedMatches.length > 0
+      ? "Showing exact matches plus closely related topics."
+      : exactMatches.length === 0 && filtered.length > 0
       ? "Showing broader matches because no exact topic matched every word."
       : filtered.length > 120
       ? "Showing the top 120 ranked matches."
@@ -639,9 +805,13 @@ function renderResults() {
   renderInsights(normalizedQuery, filtered, exactMatches);
   refreshLiveKnowledge(query);
   refreshImages(query);
+  refreshVideos(query);
+  refreshResearch(query);
+  refreshNews(query);
 
   const visibleItems = filtered.slice(0, 120);
   resultsEl.innerHTML = visibleItems.map(renderResultCard).join("");
+  setActiveTab(activeTab);
 }
 
 function syncInputs(value) {
@@ -653,7 +823,7 @@ function showHome() {
   homeView.classList.remove("hidden");
   resultsView.classList.add("hidden");
   searchInsights.classList.add("hidden");
-  hideImages();
+  hideExtraSections();
 }
 
 function showResults() {
@@ -668,6 +838,12 @@ function startSearch(nextQuery) {
   renderResultsFilters();
   renderResults();
 }
+
+searchTabs.querySelectorAll(".search-tab").forEach((button) => {
+  button.addEventListener("click", () => {
+    setActiveTab(button.dataset.tab);
+  });
+});
 
 homeSearchInput.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
@@ -719,3 +895,4 @@ renderResultsFilters();
 renderStats();
 renderFeaturedTopics();
 showHome();
+setActiveTab("all");

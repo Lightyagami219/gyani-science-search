@@ -120,6 +120,14 @@
         </aside>
 
         <section class="results-main panel">
+          <nav id="searchTabs" class="search-tabs" aria-label="Search result modes">
+            <button type="button" class="search-tab active" data-tab="all">All</button>
+            <button type="button" class="search-tab" data-tab="images">Images</button>
+            <button type="button" class="search-tab" data-tab="videos">Videos</button>
+            <button type="button" class="search-tab" data-tab="research">Research</button>
+            <button type="button" class="search-tab" data-tab="news">News</button>
+          </nav>
+
           <section id="aiAnswerBox" class="ai-answer-box hidden">
             <div class="ai-answer-head">
               <div>
@@ -150,7 +158,40 @@
             <div id="imageResults" class="image-grid"></div>
           </section>
 
-          <div class="results-head">
+          <section id="videoSection" class="image-section hidden">
+            <div class="results-head image-head">
+              <div>
+                <p class="eyebrow">Videos</p>
+                <h2>Video Results</h2>
+              </div>
+              <p id="videoHint" class="results-hint"></p>
+            </div>
+            <div id="videoResults" class="results-list"></div>
+          </section>
+
+          <section id="researchSection" class="image-section hidden">
+            <div class="results-head image-head">
+              <div>
+                <p class="eyebrow">Research</p>
+                <h2>Research Results</h2>
+              </div>
+              <p id="researchHint" class="results-hint"></p>
+            </div>
+            <div id="researchResults" class="results-list"></div>
+          </section>
+
+          <section id="newsSection" class="image-section hidden">
+            <div class="results-head image-head">
+              <div>
+                <p class="eyebrow">News</p>
+                <h2>News Results</h2>
+              </div>
+              <p id="newsHint" class="results-hint"></p>
+            </div>
+            <div id="newsResults" class="results-list"></div>
+          </section>
+
+          <div id="allResultsHead" class="results-head">
             <div>
               <p class="eyebrow">Results</p>
               <h2 id="resultsTitle">Search Results</h2>

@@ -493,6 +493,30 @@ button:hover {
   gap: 14px;
 }
 
+.search-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.search-tab {
+  min-width: 0;
+  width: auto;
+  height: auto;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.search-tab.active {
+  background: rgba(127, 208, 255, 0.14);
+  color: var(--accent);
+  border-color: rgba(127, 208, 255, 0.45);
+}
+
 .search-insights {
   display: grid;
   gap: 12px;

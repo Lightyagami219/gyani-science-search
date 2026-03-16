@@ -375,6 +375,85 @@ const SCIENCE_EXPANDED_TOPICS = [
   ["Technology", "Data Science", "Data Visualization", "Core", "Data visualization communicates patterns, trends, and insights through charts, maps, and interactive graphics.", ["data visualization", "data science", "charts", "analytics", "technology"]]
 ];
 
+const SCIENCE_MASTER_TOPICS = [
+  ["Physics", "Mechanics", "Work and Energy", "Core", "Work and energy connect forces, motion, kinetic energy, potential energy, and conservation principles.", ["work", "energy", "kinetic energy", "potential energy", "physics"]],
+  ["Physics", "Mechanics", "Circular Motion", "Core", "Circular motion studies rotation, centripetal force, angular speed, and orbital behavior.", ["circular motion", "centripetal force", "rotation", "orbits", "physics"]],
+  ["Physics", "Fields", "Capacitance", "Advanced", "Capacitance describes charge storage and potential difference in electric systems.", ["capacitance", "capacitor", "electric potential", "charge", "physics"]],
+  ["Physics", "Fields", "Current Electricity", "Core", "Current electricity studies circuits, resistance, Ohm's law, and electrical power.", ["current electricity", "circuits", "resistance", "ohms law", "physics"]],
+  ["Physics", "Optics", "Lasers", "Advanced", "Lasers produce coherent light and are important in communication, medicine, measurement, and industry.", ["lasers", "light", "optics", "photons", "physics"]],
+  ["Physics", "Modern Physics", "Schrodinger Equation", "Advanced", "The Schrodinger equation describes how quantum states evolve and underpins wave mechanics.", ["schrodinger equation", "quantum mechanics", "wave function", "physics", "atoms"]],
+  ["Physics", "Modern Physics", "Uncertainty Principle", "Advanced", "The uncertainty principle limits how precisely certain pairs of physical quantities can be known together.", ["uncertainty principle", "quantum mechanics", "heisenberg", "physics", "particles"]],
+  ["Physics", "Modern Physics", "Quantum Field Theory", "Advanced", "Quantum field theory combines quantum mechanics and relativity to describe particles as excitations of fields.", ["quantum field theory", "quantum mechanics", "relativity", "particles", "physics"]],
+  ["Physics", "Modern Physics", "Particle Physics", "Advanced", "Particle physics studies fundamental particles, interactions, accelerators, and the standard model.", ["particle physics", "quarks", "leptons", "standard model", "physics"]],
+  ["Physics", "Nuclear Physics", "Standard Model", "Advanced", "The standard model explains elementary particles and three of the four fundamental interactions.", ["standard model", "particle physics", "fundamental forces", "quarks", "physics"]],
+
+  ["Chemistry", "Atomic Structure", "Mole Concept", "Foundational", "The mole concept links microscopic particles to measurable quantities in chemistry.", ["mole concept", "avogadro number", "chemistry", "moles", "atoms"]],
+  ["Chemistry", "Inorganic", "Coordination Compounds", "Advanced", "Coordination compounds contain central metal atoms bonded to ligands and are important in catalysis and bioinorganic chemistry.", ["coordination compounds", "ligands", "inorganic chemistry", "metals", "chemistry"]],
+  ["Chemistry", "Inorganic", "Transition Elements", "Core", "Transition elements show variable oxidation states, colored compounds, and catalytic behavior.", ["transition elements", "metals", "oxidation states", "chemistry", "periodic table"]],
+  ["Chemistry", "Physical Chemistry", "Solutions", "Foundational", "Solutions describe solute-solvent systems, concentration, solubility, and colligative properties.", ["solutions", "solubility", "concentration", "chemistry", "solute"]],
+  ["Chemistry", "Physical Chemistry", "Electrolytes", "Core", "Electrolytes conduct electricity in solution and are central to acids, bases, and electrochemistry.", ["electrolytes", "ions", "solutions", "electrochemistry", "chemistry"]],
+  ["Chemistry", "Organic", "Aromatic Compounds", "Advanced", "Aromatic compounds have delocalized electron systems and distinctive stability and reaction patterns.", ["aromatic compounds", "benzene", "organic chemistry", "delocalized electrons", "chemistry"]],
+  ["Chemistry", "Organic", "Isomerism", "Core", "Isomerism describes compounds with the same formula but different structures or spatial arrangements.", ["isomerism", "organic chemistry", "stereochemistry", "structure", "chemistry"]],
+  ["Chemistry", "Biochemistry", "Lipids", "Core", "Lipids store energy, form membranes, and participate in signaling in living systems.", ["lipids", "biochemistry", "fats", "membranes", "biology"]],
+  ["Chemistry", "Materials Chemistry", "Corrosion", "Core", "Corrosion is the deterioration of materials, especially metals, by chemical or electrochemical reactions.", ["corrosion", "materials chemistry", "metals", "oxidation", "chemistry"]],
+  ["Chemistry", "Analytical Chemistry", "Spectroscopy", "Advanced", "Spectroscopy identifies substances through their interaction with electromagnetic radiation.", ["spectroscopy", "analysis", "light", "molecules", "chemistry"]],
+
+  ["Biology", "Cell and Molecular Biology", "Cell Respiration", "Foundational", "Cell respiration releases usable energy from glucose through glycolysis, Krebs cycle, and electron transport.", ["cell respiration", "atp", "mitochondria", "biology", "glucose"]],
+  ["Biology", "Cell and Molecular Biology", "Stem Cells", "Advanced", "Stem cells can self-renew and differentiate into specialized cell types.", ["stem cells", "cell biology", "differentiation", "medicine", "biology"]],
+  ["Biology", "Genetics", "Chromosomes", "Foundational", "Chromosomes carry genetic information and organize DNA inside cells.", ["chromosomes", "dna", "genes", "genetics", "biology"]],
+  ["Biology", "Genetics", "Epigenetics", "Advanced", "Epigenetics studies changes in gene activity that do not alter the DNA sequence itself.", ["epigenetics", "gene regulation", "dna", "biology", "genetics"]],
+  ["Biology", "Ecology", "Food Chains", "Foundational", "Food chains and food webs describe energy transfer among organisms in ecosystems.", ["food chains", "food webs", "ecology", "energy flow", "biology"]],
+  ["Biology", "Ecology", "Natural Selection", "Core", "Natural selection favors traits that improve survival and reproduction over generations.", ["natural selection", "evolution", "adaptation", "biology", "darwin"]],
+  ["Biology", "Human Biology", "Circulatory System", "Foundational", "The circulatory system transports oxygen, nutrients, hormones, and wastes through the body.", ["circulatory system", "blood", "heart", "biology", "human body"]],
+  ["Biology", "Human Biology", "Respiratory System", "Foundational", "The respiratory system exchanges gases and supports oxygen delivery and carbon dioxide removal.", ["respiratory system", "lungs", "gas exchange", "biology", "human body"]],
+  ["Biology", "Plant Biology", "Transpiration", "Core", "Transpiration is the movement of water through plants and its evaporation from leaves.", ["transpiration", "plants", "xylem", "water transport", "biology"]],
+  ["Biology", "Microbiology", "Vaccines", "Core", "Vaccines prepare the immune system to recognize and fight infectious agents.", ["vaccines", "immunity", "viruses", "biology", "health"]],
+
+  ["Astronomy", "Planetary Science", "Moon", "Foundational", "The Moon affects tides, night illumination, and planetary science through its geology and origin history.", ["moon", "lunar science", "astronomy", "space", "orbit"]],
+  ["Astronomy", "Planetary Science", "Asteroids", "Core", "Asteroids are rocky bodies that reveal early solar system history and impact processes.", ["asteroids", "solar system", "space", "astronomy", "planets"]],
+  ["Astronomy", "Planetary Science", "Comets", "Core", "Comets are icy bodies that develop tails near the Sun and preserve primitive solar system material.", ["comets", "solar system", "space", "astronomy", "ice"]],
+  ["Astronomy", "Astrophysics", "Neutron Stars", "Advanced", "Neutron stars are ultra-dense remnants of massive stars after supernova explosions.", ["neutron stars", "supernova", "astrophysics", "space", "astronomy"]],
+  ["Astronomy", "Astrophysics", "Pulsars", "Advanced", "Pulsars are rapidly rotating neutron stars emitting beams of radiation.", ["pulsars", "neutron stars", "space", "astronomy", "radiation"]],
+  ["Astronomy", "Cosmology", "Cosmic Microwave Background", "Advanced", "The cosmic microwave background is relic radiation from the early universe and a pillar of modern cosmology.", ["cosmic microwave background", "cmb", "cosmology", "big bang", "astronomy"]],
+  ["Astronomy", "Galactic Astronomy", "Galaxies", "Core", "Galaxies are large systems of stars, gas, dust, and dark matter.", ["galaxies", "milky way", "astronomy", "space", "cosmos"]],
+  ["Astronomy", "Space Exploration", "Apollo Missions", "Core", "The Apollo missions achieved human Moon landings and transformed lunar exploration.", ["apollo missions", "moon", "nasa", "space exploration", "astronomy"]],
+  ["Astronomy", "Space Exploration", "Mangalyaan", "Core", "Mangalyaan was India's Mars Orbiter Mission and a milestone in planetary exploration.", ["mangalyaan", "isro", "mars", "india", "space mission"]],
+  ["Astronomy", "Space Exploration", "Voyager Missions", "Advanced", "The Voyager spacecraft explored outer planets and continue to send data from interstellar space.", ["voyager", "nasa", "space exploration", "planets", "astronomy"]],
+
+  ["Mathematics", "Algebra", "Polynomials", "Foundational", "Polynomials are algebraic expressions used in equations, graphs, and mathematical modeling.", ["polynomials", "algebra", "equations", "math", "functions"]],
+  ["Mathematics", "Algebra", "Matrices", "Core", "Matrices organize numbers for solving systems, transformations, and computations in linear algebra.", ["matrices", "linear algebra", "math", "systems", "vectors"]],
+  ["Mathematics", "Analysis", "Continuity", "Core", "Continuity describes functions without breaks and connects limits to calculus.", ["continuity", "limits", "calculus", "analysis", "math"]],
+  ["Mathematics", "Analysis", "Series", "Advanced", "Series sum infinite or finite sequences and are central to approximation and analysis.", ["series", "analysis", "calculus", "math", "infinite sums"]],
+  ["Mathematics", "Geometry", "Coordinate Geometry", "Core", "Coordinate geometry uses algebraic methods to study points, lines, circles, and conics.", ["coordinate geometry", "graphs", "geometry", "math", "conics"]],
+  ["Mathematics", "Geometry", "Trigonometry", "Core", "Trigonometry studies angle relationships and periodic functions with applications in science and engineering.", ["trigonometry", "sine", "cosine", "angles", "math"]],
+  ["Mathematics", "Statistics", "Regression", "Advanced", "Regression models relationships between variables and supports prediction and analysis.", ["regression", "statistics", "data", "math", "prediction"]],
+  ["Mathematics", "Statistics", "Sampling", "Core", "Sampling methods help estimate properties of populations from selected data.", ["sampling", "statistics", "data", "math", "probability"]],
+  ["Mathematics", "Number Theory", "Modular Arithmetic", "Advanced", "Modular arithmetic studies remainders and cyclic behavior in integers.", ["modular arithmetic", "number theory", "integers", "math", "remainders"]],
+  ["Mathematics", "Applied Mathematics", "Numerical Methods", "Advanced", "Numerical methods approximate solutions to equations, integrals, and differential systems.", ["numerical methods", "applied mathematics", "approximation", "math", "computation"]],
+
+  ["Earth Science", "Geology", "Volcanoes", "Core", "Volcanoes form when magma reaches the surface and shape landscapes, hazards, and crustal processes.", ["volcanoes", "geology", "magma", "earth science", "tectonics"]],
+  ["Earth Science", "Geology", "Fossils", "Core", "Fossils preserve evidence of past life and help reconstruct Earth's biological and geological history.", ["fossils", "geology", "earth history", "paleontology", "earth science"]],
+  ["Earth Science", "Atmospheric Science", "Weather Systems", "Core", "Weather systems include fronts, cyclones, pressure zones, and atmospheric circulation.", ["weather systems", "meteorology", "atmosphere", "earth science", "storms"]],
+  ["Earth Science", "Atmospheric Science", "Monsoon", "Core", "Monsoon systems are seasonal wind and rainfall patterns that strongly affect climate and agriculture.", ["monsoon", "climate", "rainfall", "earth science", "weather"]],
+  ["Earth Science", "Oceanography", "Marine Ecosystems", "Core", "Marine ecosystems include oceans, reefs, coasts, and life processes shaped by salinity, light, and currents.", ["marine ecosystems", "oceanography", "oceans", "biology", "earth science"]],
+  ["Earth Science", "Hydrology", "Groundwater", "Core", "Groundwater moves through aquifers and supports ecosystems, agriculture, and drinking supplies.", ["groundwater", "hydrology", "aquifers", "water", "earth science"]],
+  ["Earth Science", "Environmental Science", "Renewable Energy", "Core", "Renewable energy includes solar, wind, hydro, and other low-carbon energy systems.", ["renewable energy", "environment", "solar", "wind", "earth science"]],
+  ["Earth Science", "Environmental Science", "Conservation", "Core", "Conservation protects ecosystems, species, resources, and environmental quality.", ["conservation", "environment", "biodiversity", "earth science", "sustainability"]],
+  ["Earth Science", "Geophysics", "Plate Boundaries", "Core", "Plate boundaries explain earthquakes, mountain building, volcanic arcs, and crustal change.", ["plate boundaries", "tectonics", "earthquakes", "geophysics", "earth science"]],
+  ["Earth Science", "Geophysics", "Geomagnetism", "Advanced", "Geomagnetism studies Earth's magnetic field, its origin, and its behavior through time.", ["geomagnetism", "magnetic field", "geophysics", "earth science", "earth"]],
+
+  ["Technology", "Computer Science", "Programming", "Foundational", "Programming uses languages and logic to build software, tools, and digital systems.", ["programming", "software", "coding", "computer science", "technology"]],
+  ["Technology", "Computer Science", "Operating Systems", "Core", "Operating systems manage hardware, memory, files, and processes for computing devices.", ["operating systems", "software", "computer science", "technology", "processes"]],
+  ["Technology", "Computer Science", "Computer Networks", "Core", "Computer networks connect systems for communication, data transfer, and internet services.", ["computer networks", "internet", "data transfer", "technology", "computer science"]],
+  ["Technology", "Computer Science", "Artificial Neural Networks", "Advanced", "Artificial neural networks are layered computational models inspired by brain-like connections.", ["neural networks", "ai", "machine learning", "technology", "computer science"]],
+  ["Technology", "Robotics", "Autonomous Systems", "Advanced", "Autonomous systems sense, decide, and act with reduced human intervention.", ["autonomous systems", "robotics", "automation", "ai", "technology"]],
+  ["Technology", "Biotechnology", "Bioinformatics", "Advanced", "Bioinformatics uses computation to analyze biological data such as genomes and proteins.", ["bioinformatics", "genomics", "data", "biology", "technology"]],
+  ["Technology", "Materials Science", "Composite Materials", "Core", "Composite materials combine components to achieve improved strength, weight, or durability.", ["composite materials", "materials science", "engineering", "technology", "materials"]],
+  ["Technology", "Materials Science", "Battery Technology", "Core", "Battery technology stores electrical energy for portable devices, vehicles, and grids.", ["battery technology", "electrochemistry", "energy storage", "technology", "materials"]],
+  ["Technology", "Nanotechnology", "Quantum Dots", "Advanced", "Quantum dots are nanoscale semiconductor particles with unique optical and electronic properties.", ["quantum dots", "nanotechnology", "semiconductors", "technology", "materials"]],
+  ["Technology", "Data Science", "Big Data", "Core", "Big data refers to very large, complex datasets requiring scalable storage and analysis tools.", ["big data", "data science", "analytics", "technology", "computing"]]
+];
+
 const SUBJECT_CONFIG = {
   Physics: {
     branches: ["Mechanics", "Thermal Physics", "Electromagnetism", "Optics", "Modern Physics", "Nuclear Physics"],
@@ -647,6 +726,7 @@ function generateScienceDataset() {
   return [
     ...SCIENCE_BASE_DATA.map(enrichBaseEntry),
     ...SCIENCE_EXPANDED_TOPICS.map(createExpandedTopic),
+    ...SCIENCE_MASTER_TOPICS.map(createExpandedTopic),
     ...generated
   ];
 }
