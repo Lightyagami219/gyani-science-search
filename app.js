@@ -129,12 +129,34 @@ function matchesQuery(item, normalizedQuery) {
   const haystack = [
     item.title,
     item.subject,
+    item.branch || "",
     item.level,
     item.summary,
-    ...item.keywords
+    ...item.keywords,
+    ...(item.sourceLinks || []).map((link) => `${link.label} ${link.url}`)
   ].join(" ").toLowerCase();
 
-  return haystack.includes(normalizedQuery);
+  const tokens = normalizedQuery.split(/\s+/).filter(Boolean);
+  return tokens.every((token) => haystack.includes(token));
+}
+
+function partialMatchesQuery(item, normalizedQuery) {
+  if (!normalizedQuery) {
+    return true;
+  }
+
+  const haystack = [
+    item.title,
+    item.subject,
+    item.branch || "",
+    item.level,
+    item.summary,
+    ...item.keywords,
+    ...(item.sourceLinks || []).map((link) => `${link.label} ${link.url}`)
+  ].join(" ").toLowerCase();
+
+  const tokens = normalizedQuery.split(/\s+/).filter(Boolean);
+  return tokens.some((token) => haystack.includes(token));
 }
 
 function scoreItem(item, tokens) {
@@ -147,6 +169,7 @@ function scoreItem(item, tokens) {
   const branch = (item.branch || "").toLowerCase();
   const summary = item.summary.toLowerCase();
   const keywords = item.keywords.join(" ").toLowerCase();
+  const links = (item.sourceLinks || []).map((link) => `${link.label} ${link.url}`).join(" ").toLowerCase();
 
   let score = 0;
 
@@ -165,6 +188,9 @@ function scoreItem(item, tokens) {
     }
     if (keywords.includes(token)) {
       score += 30;
+    }
+    if (links.includes(token)) {
+      score += 35;
     }
     if (summary.includes(token)) {
       score += 15;
@@ -209,16 +235,37 @@ function buildAiAnswer(normalizedQuery, filtered) {
   aiAnswerBox.classList.remove("hidden");
 }
 
+function fallbackSearchLinks(searchTerm) {
+  const encoded = encodeURIComponent(searchTerm);
+  return [
+    { label: "Google Scholar", url: `https://scholar.google.com/scholar?q=${encoded}` },
+    { label: "NASA", url: `https://www.nasa.gov/search/?q=${encoded}` },
+    { label: "Wikipedia", url: `https://en.wikipedia.org/wiki/Special:Search?search=${encoded}` },
+    { label: "Britannica", url: `https://www.britannica.com/search?query=${encoded}` },
+    { label: "YouTube Learning", url: `https://www.youtube.com/results?search_query=${encoded}` }
+  ];
+}
+
 function renderResults() {
   const normalizedQuery = query.trim().toLowerCase();
   const tokens = normalizedQuery.split(/\s+/).filter(Boolean);
-  const filtered = SCIENCE_DATA.filter((item) => {
+  const exactMatches = SCIENCE_DATA.filter((item) => {
     const subjectMatch = activeSubject === "All" || item.subject === activeSubject;
     return subjectMatch && matchesQuery(item, normalizedQuery);
   }).map((item) => ({
     ...item,
     score: scoreItem(item, tokens)
   })).sort((a, b) => b.score - a.score || a.title.localeCompare(b.title));
+  const fallbackMatches = exactMatches.length
+    ? exactMatches
+    : SCIENCE_DATA.filter((item) => {
+      const subjectMatch = activeSubject === "All" || item.subject === activeSubject;
+      return subjectMatch && partialMatchesQuery(item, normalizedQuery);
+    }).map((item) => ({
+      ...item,
+      score: scoreItem(item, tokens)
+    })).sort((a, b) => b.score - a.score || a.title.localeCompare(b.title));
+  const filtered = fallbackMatches;
 
   resultsTitleEl.textContent = normalizedQuery
     ? `Search: ${titleCase(query.trim())}`
@@ -227,15 +274,21 @@ function renderResults() {
       : `${activeSubject} Topics`;
 
   resultsCountEl.textContent = `${filtered.length} result${filtered.length === 1 ? "" : "s"}`;
-  resultsHintEl.textContent = filtered.length > 120
+  resultsHintEl.textContent = exactMatches.length === 0 && filtered.length > 0
+      ? "Showing broader matches because no exact topic matched every word."
+      : filtered.length > 120
       ? "Showing the top 120 ranked matches."
       : "Ranked by topic relevance.";
 
   if (!filtered.length) {
     aiAnswerBox.classList.add("hidden");
+    const links = fallbackSearchLinks(query.trim() || "science");
     resultsEl.innerHTML = `
       <div class="empty-state">
-        No matches found. Try a broader keyword like DNA, atoms, energy, climate, or stars.
+        <p>No internal topic matched exactly, but you can continue with these live searches.</p>
+        <div class="links-list">
+          ${links.map((link) => `<a href="${link.url}" target="_blank" rel="noreferrer">${link.label}</a>`).join("")}
+        </div>
       </div>
     `;
     return;

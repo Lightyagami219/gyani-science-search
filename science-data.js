@@ -158,7 +158,221 @@ const SCIENCE_BASE_DATA = [
     level: "Advanced",
     summary: "Builds systems that learn, reason, perceive, and make decisions from data.",
     keywords: ["machine learning", "neural networks", "reasoning", "data", "ai"]
+  },
+  {
+    title: "NASA",
+    subject: "Astronomy",
+    branch: "Space Exploration",
+    level: "Foundational",
+    summary: "The National Aeronautics and Space Administration leads U.S. civilian space exploration, space science, aeronautics research, and major missions across Earth and deep space.",
+    keywords: ["nasa", "space agency", "usa", "missions", "space exploration", "astronomy"]
+  },
+  {
+    title: "ESA",
+    subject: "Astronomy",
+    branch: "Space Exploration",
+    level: "Core",
+    summary: "The European Space Agency coordinates European missions in astronomy, Earth observation, planetary science, launch systems, and international collaboration.",
+    keywords: ["esa", "european space agency", "space agency", "europe", "missions", "satellites"]
+  },
+  {
+    title: "ISRO",
+    subject: "Astronomy",
+    branch: "Space Exploration",
+    level: "Core",
+    summary: "The Indian Space Research Organisation develops launch vehicles, satellites, lunar and Mars missions, and practical space systems for communication and Earth observation.",
+    keywords: ["isro", "india", "space agency", "chandrayaan", "mangalyaan", "satellites"]
+  },
+  {
+    title: "SpaceX",
+    subject: "Technology",
+    branch: "Space Technology",
+    level: "Core",
+    summary: "SpaceX develops reusable rockets, spacecraft, satellite internet systems, and human spaceflight capabilities that influence modern space transportation.",
+    keywords: ["spacex", "falcon", "starship", "rockets", "spaceflight", "satellites"]
+  },
+  {
+    title: "James Webb Space Telescope",
+    subject: "Astronomy",
+    branch: "Astrophysics",
+    level: "Advanced",
+    summary: "JWST observes the early universe, galaxies, stars, and exoplanet atmospheres using infrared astronomy from space.",
+    keywords: ["jwst", "james webb", "space telescope", "infrared", "nasa", "esa"]
+  },
+  {
+    title: "Hubble Space Telescope",
+    subject: "Astronomy",
+    branch: "Astrophysics",
+    level: "Core",
+    summary: "Hubble transformed astronomy with high-resolution observations of galaxies, nebulae, planets, and the expanding universe.",
+    keywords: ["hubble", "space telescope", "nasa", "astronomy", "galaxies", "universe"]
+  },
+  {
+    title: "Chandrayaan Missions",
+    subject: "Astronomy",
+    branch: "Planetary Science",
+    level: "Core",
+    summary: "India's Chandrayaan lunar missions advanced Moon science through orbiters, landers, and rover exploration.",
+    keywords: ["chandrayaan", "moon", "isro", "india", "lunar mission", "rover"]
+  },
+  {
+    title: "Mars Exploration",
+    subject: "Astronomy",
+    branch: "Planetary Science",
+    level: "Core",
+    summary: "Mars exploration includes orbiters, landers, and rovers studying geology, climate, water history, and possible habitability.",
+    keywords: ["mars", "rovers", "nasa", "perseverance", "curiosity", "planetary science"]
+  },
+  {
+    title: "DNA Replication",
+    subject: "Biology",
+    branch: "Genetics",
+    level: "Core",
+    summary: "DNA replication copies genetic material before cell division using enzymes, complementary base pairing, and proofreading mechanisms.",
+    keywords: ["dna", "replication", "genetics", "cell division", "enzymes", "biology"]
+  },
+  {
+    title: "Human Genome Project",
+    subject: "Biology",
+    branch: "Genetics",
+    level: "Advanced",
+    summary: "The Human Genome Project mapped and sequenced human DNA, transforming genetics, medicine, biotechnology, and biological research.",
+    keywords: ["genome", "dna", "genes", "human genome project", "sequencing", "biology"]
+  },
+  {
+    title: "CRISPR Gene Editing",
+    subject: "Biology",
+    branch: "Genetics",
+    level: "Advanced",
+    summary: "CRISPR enables targeted gene editing and is central to modern genetics, biotechnology, and medical research.",
+    keywords: ["crispr", "gene editing", "dna", "genetics", "biotechnology", "cas9"]
+  },
+  {
+    title: "Periodic Trends",
+    subject: "Chemistry",
+    branch: "Atomic Structure",
+    level: "Core",
+    summary: "Periodic trends describe how atomic radius, ionization energy, electronegativity, and electron affinity change across the periodic table.",
+    keywords: ["periodic trends", "ionization energy", "electronegativity", "atomic radius", "chemistry"]
+  },
+  {
+    title: "Chemical Equilibrium",
+    subject: "Chemistry",
+    branch: "Physical Chemistry",
+    level: "Core",
+    summary: "Chemical equilibrium explains reversible reactions, equilibrium constants, and how systems respond to stress through Le Chatelier's principle.",
+    keywords: ["equilibrium", "reversible reactions", "le chatelier", "chemistry", "constants"]
+  },
+  {
+    title: "Machine Learning",
+    subject: "Technology",
+    branch: "Computer Science",
+    level: "Core",
+    summary: "Machine learning trains models from data for prediction, classification, pattern recognition, and decision making.",
+    keywords: ["machine learning", "ai", "models", "data science", "algorithms", "prediction"]
+  },
+  {
+    title: "Rocket Propulsion",
+    subject: "Physics",
+    branch: "Mechanics",
+    level: "Advanced",
+    summary: "Rocket propulsion uses Newton's laws, momentum conservation, fuel combustion, and thrust generation to move spacecraft.",
+    keywords: ["rocket", "propulsion", "thrust", "nasa", "spacex", "spaceflight"]
   }
+];
+
+const SCIENCE_EXPANDED_TOPICS = [
+  ["Physics", "Mechanics", "Kinematics", "Foundational", "Describes motion using displacement, velocity, acceleration, and time without focusing on the causes of motion.", ["kinematics", "motion", "velocity", "acceleration", "physics"]],
+  ["Physics", "Mechanics", "Dynamics", "Core", "Studies the forces that produce or change motion in physical systems.", ["dynamics", "forces", "motion", "newton", "mechanics"]],
+  ["Physics", "Mechanics", "Momentum", "Core", "Momentum connects mass and velocity and is central to collisions, impulses, and conservation laws.", ["momentum", "impulse", "collisions", "conservation", "physics"]],
+  ["Physics", "Mechanics", "Gravitation", "Core", "Gravitation explains attraction between masses from falling objects to planetary motion.", ["gravitation", "gravity", "orbits", "mass", "newton"]],
+  ["Physics", "Thermal Physics", "Heat Transfer", "Foundational", "Heat transfer occurs by conduction, convection, and radiation between systems of different temperature.", ["heat transfer", "conduction", "convection", "radiation", "temperature"]],
+  ["Physics", "Thermal Physics", "Entropy", "Advanced", "Entropy measures disorder, multiplicity, and the direction of spontaneous processes in thermodynamics.", ["entropy", "thermodynamics", "disorder", "energy", "physics"]],
+  ["Physics", "Fields", "Electric Field", "Core", "An electric field describes the force experienced by charges in space.", ["electric field", "charge", "force", "electrostatics", "physics"]],
+  ["Physics", "Fields", "Magnetic Field", "Core", "Magnetic fields arise from moving charges and magnets and influence currents and particles.", ["magnetic field", "magnetism", "current", "lorentz force", "physics"]],
+  ["Physics", "Optics", "Wave Optics", "Core", "Wave optics explains interference, diffraction, and polarization of light.", ["wave optics", "interference", "diffraction", "polarization", "light"]],
+  ["Physics", "Optics", "Geometrical Optics", "Foundational", "Geometrical optics models reflection, refraction, mirrors, and lenses using rays.", ["geometrical optics", "reflection", "refraction", "lenses", "mirrors"]],
+  ["Physics", "Modern Physics", "Photoelectric Effect", "Core", "The photoelectric effect showed that light can behave as quantized packets called photons.", ["photoelectric effect", "photons", "quantum", "einstein", "light"]],
+  ["Physics", "Modern Physics", "Atomic Structure", "Foundational", "Atomic structure covers protons, neutrons, electrons, energy levels, and atomic models.", ["atomic structure", "atom", "electrons", "nucleus", "physics"]],
+  ["Physics", "Nuclear Physics", "Radioactivity", "Core", "Radioactivity involves unstable nuclei emitting alpha, beta, or gamma radiation.", ["radioactivity", "nuclear physics", "alpha", "beta", "gamma"]],
+  ["Physics", "Nuclear Physics", "Nuclear Fission", "Advanced", "Nuclear fission splits heavy nuclei and releases large amounts of energy.", ["nuclear fission", "reactor", "uranium", "energy", "nuclear"]],
+  ["Physics", "Nuclear Physics", "Nuclear Fusion", "Advanced", "Nuclear fusion joins light nuclei and powers stars while motivating next-generation energy research.", ["nuclear fusion", "stars", "plasma", "energy", "physics"]],
+
+  ["Chemistry", "Atomic Structure", "Atomic Orbitals", "Core", "Atomic orbitals describe probability distributions for electrons around atomic nuclei.", ["atomic orbitals", "electrons", "quantum chemistry", "atoms", "chemistry"]],
+  ["Chemistry", "Physical Chemistry", "Stoichiometry", "Foundational", "Stoichiometry uses balanced equations to calculate reactants, products, and mole relationships.", ["stoichiometry", "moles", "equations", "reactions", "chemistry"]],
+  ["Chemistry", "Physical Chemistry", "Redox Reactions", "Core", "Redox reactions involve electron transfer and changes in oxidation state.", ["redox", "oxidation", "reduction", "electrons", "chemistry"]],
+  ["Chemistry", "Physical Chemistry", "Chemical Thermodynamics", "Advanced", "Chemical thermodynamics studies enthalpy, entropy, Gibbs free energy, and spontaneity.", ["chemical thermodynamics", "enthalpy", "gibbs free energy", "entropy", "chemistry"]],
+  ["Chemistry", "Analytical Chemistry", "Titration", "Core", "Titration determines concentration by reacting measured volumes of known and unknown solutions.", ["titration", "concentration", "acid base", "analysis", "chemistry"]],
+  ["Chemistry", "Analytical Chemistry", "Chromatography", "Core", "Chromatography separates components using differences in movement through stationary and mobile phases.", ["chromatography", "separation", "analytical chemistry", "mixtures", "chemistry"]],
+  ["Chemistry", "Organic", "Hydrocarbons", "Foundational", "Hydrocarbons are organic compounds made only of carbon and hydrogen, including alkanes, alkenes, and alkynes.", ["hydrocarbons", "organic chemistry", "alkanes", "alkenes", "carbon"]],
+  ["Chemistry", "Organic", "Functional Groups", "Foundational", "Functional groups determine the characteristic reactions and properties of organic molecules.", ["functional groups", "organic", "alcohol", "amine", "carboxylic acid"]],
+  ["Chemistry", "Organic", "Polymers", "Core", "Polymers are long-chain molecules used in plastics, fibers, biomaterials, and advanced manufacturing.", ["polymers", "plastics", "macromolecules", "materials", "chemistry"]],
+  ["Chemistry", "Biochemistry", "Proteins", "Core", "Proteins are biological macromolecules built from amino acids and responsible for structure and function in cells.", ["proteins", "amino acids", "enzymes", "biochemistry", "biology"]],
+  ["Chemistry", "Biochemistry", "Enzymes", "Core", "Enzymes catalyze biochemical reactions and control metabolic pathways in living systems.", ["enzymes", "catalysis", "metabolism", "biochemistry", "proteins"]],
+  ["Chemistry", "Materials Chemistry", "Nanomaterials", "Advanced", "Nanomaterials have size-dependent properties used in electronics, medicine, and coatings.", ["nanomaterials", "materials chemistry", "nanotechnology", "particles", "chemistry"]],
+
+  ["Biology", "Cell and Molecular Biology", "Cell Membrane", "Foundational", "The cell membrane regulates transport, signaling, and compartment boundaries in living cells.", ["cell membrane", "transport", "phospholipid bilayer", "cell", "biology"]],
+  ["Biology", "Cell and Molecular Biology", "Mitosis", "Foundational", "Mitosis is the process by which one cell divides to produce two genetically similar daughter cells.", ["mitosis", "cell division", "chromosomes", "biology", "cells"]],
+  ["Biology", "Cell and Molecular Biology", "Meiosis", "Core", "Meiosis produces gametes and creates genetic variation through recombination and chromosome separation.", ["meiosis", "gametes", "genetics", "cell division", "biology"]],
+  ["Biology", "Genetics", "Gene Expression", "Core", "Gene expression includes transcription and translation, turning genetic information into functional molecules.", ["gene expression", "transcription", "translation", "dna", "rna"]],
+  ["Biology", "Genetics", "Mutation", "Core", "Mutations are changes in DNA sequence that may alter genes, traits, and disease risk.", ["mutation", "dna", "genes", "genetics", "variation"]],
+  ["Biology", "Ecology", "Ecosystems", "Foundational", "Ecosystems include organisms and their physical environment interacting through energy flow and nutrient cycles.", ["ecosystems", "ecology", "food webs", "environment", "biology"]],
+  ["Biology", "Ecology", "Biodiversity", "Core", "Biodiversity measures the variety of life and supports resilience, stability, and ecosystem services.", ["biodiversity", "species", "ecology", "conservation", "biology"]],
+  ["Biology", "Human Biology", "Immune System", "Core", "The immune system protects the body using innate and adaptive defenses against pathogens.", ["immune system", "antibodies", "pathogens", "biology", "health"]],
+  ["Biology", "Human Biology", "Nervous System", "Core", "The nervous system coordinates sensation, processing, and response through neurons and signaling pathways.", ["nervous system", "neurons", "brain", "biology", "human body"]],
+  ["Biology", "Plant Biology", "Plant Hormones", "Core", "Plant hormones regulate growth, development, tropisms, flowering, and stress responses.", ["plant hormones", "auxin", "gibberellin", "plants", "biology"]],
+  ["Biology", "Microbiology", "Viruses", "Foundational", "Viruses are acellular infectious agents that replicate only within host organisms.", ["viruses", "microbiology", "infection", "pathogens", "biology"]],
+  ["Biology", "Microbiology", "Bacteria", "Foundational", "Bacteria are single-celled prokaryotes important in health, disease, ecosystems, and biotechnology.", ["bacteria", "microbiology", "prokaryotes", "cells", "biology"]],
+
+  ["Astronomy", "Planetary Science", "Planets", "Foundational", "Planets are large bodies orbiting stars and vary widely in composition, atmospheres, and geology.", ["planets", "astronomy", "solar system", "orbit", "space"]],
+  ["Astronomy", "Planetary Science", "Exoplanet Detection", "Advanced", "Exoplanet detection uses transits, radial velocity, imaging, and microlensing to find worlds beyond the solar system.", ["exoplanets", "transit", "radial velocity", "astronomy", "space"]],
+  ["Astronomy", "Astrophysics", "Nebulae", "Core", "Nebulae are clouds of gas and dust associated with star birth, stellar death, and galactic structure.", ["nebulae", "gas clouds", "stars", "astronomy", "space"]],
+  ["Astronomy", "Astrophysics", "Supernovae", "Advanced", "Supernovae are powerful stellar explosions that create heavy elements and leave neutron stars or black holes.", ["supernovae", "stars", "black holes", "neutron stars", "astronomy"]],
+  ["Astronomy", "Cosmology", "Big Bang", "Core", "The Big Bang model describes the early expansion and evolution of the universe.", ["big bang", "cosmology", "universe", "expansion", "astronomy"]],
+  ["Astronomy", "Cosmology", "Dark Matter", "Advanced", "Dark matter is unseen matter inferred from gravity and large-scale structure in the universe.", ["dark matter", "gravity", "cosmology", "galaxies", "astronomy"]],
+  ["Astronomy", "Cosmology", "Dark Energy", "Advanced", "Dark energy is a proposed cause of the accelerating expansion of the universe.", ["dark energy", "cosmology", "expansion", "universe", "astronomy"]],
+  ["Astronomy", "Stellar Astronomy", "Star Formation", "Core", "Star formation begins in collapsing clouds of gas and dust that ignite nuclear fusion.", ["star formation", "nebula", "fusion", "stars", "astronomy"]],
+  ["Astronomy", "Galactic Astronomy", "Milky Way", "Foundational", "The Milky Way is the galaxy containing our solar system and billions of stars, gas, dust, and dark matter.", ["milky way", "galaxy", "astronomy", "stars", "space"]],
+  ["Astronomy", "Space Exploration", "International Space Station", "Core", "The ISS is a permanently inhabited orbital laboratory supporting science, engineering, and international cooperation.", ["iss", "international space station", "space", "orbit", "nasa"]],
+  ["Astronomy", "Space Exploration", "Satellite Technology", "Core", "Satellites enable communication, navigation, Earth observation, weather forecasting, and space science.", ["satellites", "space technology", "orbit", "communication", "astronomy"]],
+  ["Astronomy", "Space Exploration", "Rocket Launch Systems", "Core", "Rocket launch systems place payloads into space using staging, propulsion, guidance, and structural engineering.", ["rockets", "launch systems", "spaceflight", "nasa", "spacex"]],
+
+  ["Mathematics", "Algebra", "Quadratic Equations", "Foundational", "Quadratic equations are second-degree equations solved by factoring, completing the square, or the quadratic formula.", ["quadratic equations", "algebra", "polynomials", "math", "roots"]],
+  ["Mathematics", "Algebra", "Functions", "Foundational", "Functions map inputs to outputs and are central to algebra, calculus, and applied mathematics.", ["functions", "algebra", "graphs", "relations", "math"]],
+  ["Mathematics", "Analysis", "Limits", "Core", "Limits describe the behavior of functions near values and underpin continuity and calculus.", ["limits", "calculus", "analysis", "continuity", "math"]],
+  ["Mathematics", "Analysis", "Derivatives", "Core", "Derivatives measure instantaneous rate of change and slope of functions.", ["derivatives", "calculus", "rate of change", "math", "analysis"]],
+  ["Mathematics", "Analysis", "Integrals", "Core", "Integrals measure accumulation, area, and inverse relationships to derivatives.", ["integrals", "calculus", "area", "accumulation", "math"]],
+  ["Mathematics", "Geometry", "Triangles", "Foundational", "Triangle geometry studies side-angle relationships, congruence, similarity, and trigonometric ideas.", ["triangles", "geometry", "angles", "trigonometry", "math"]],
+  ["Mathematics", "Geometry", "Circles", "Foundational", "Circle geometry includes radius, diameter, circumference, arcs, sectors, and related theorems.", ["circles", "geometry", "radius", "circumference", "math"]],
+  ["Mathematics", "Statistics", "Probability", "Core", "Probability quantifies uncertainty and outcomes in random processes.", ["probability", "statistics", "randomness", "math", "outcomes"]],
+  ["Mathematics", "Statistics", "Distributions", "Advanced", "Statistical distributions model data, variation, and likelihood across different scenarios.", ["distributions", "statistics", "normal distribution", "probability", "math"]],
+  ["Mathematics", "Number Theory", "Prime Numbers", "Core", "Prime numbers are foundational integers in divisibility, cryptography, and number theory.", ["prime numbers", "number theory", "integers", "math", "divisibility"]],
+  ["Mathematics", "Applied Mathematics", "Differential Equations", "Advanced", "Differential equations model change in physics, biology, engineering, and economics.", ["differential equations", "math", "modeling", "calculus", "applied mathematics"]],
+  ["Mathematics", "Applied Mathematics", "Optimization", "Advanced", "Optimization searches for best solutions under constraints in science, engineering, and data science.", ["optimization", "applied mathematics", "constraints", "algorithms", "math"]],
+
+  ["Earth Science", "Geology", "Minerals", "Foundational", "Minerals are naturally occurring inorganic solids with characteristic composition and structure.", ["minerals", "geology", "earth science", "rocks", "crystals"]],
+  ["Earth Science", "Geology", "Rocks", "Foundational", "Rocks are igneous, sedimentary, or metamorphic materials that record Earth processes.", ["rocks", "geology", "igneous", "sedimentary", "metamorphic"]],
+  ["Earth Science", "Geology", "Earthquakes", "Core", "Earthquakes result from sudden energy release along faults and plate boundaries.", ["earthquakes", "faults", "tectonics", "geology", "earth science"]],
+  ["Earth Science", "Atmospheric Science", "Atmosphere", "Foundational", "Earth's atmosphere consists of layered gases governing climate, weather, and radiation balance.", ["atmosphere", "earth science", "weather", "climate", "air"]],
+  ["Earth Science", "Atmospheric Science", "Greenhouse Effect", "Core", "The greenhouse effect warms Earth when atmospheric gases absorb and re-radiate heat.", ["greenhouse effect", "climate", "carbon dioxide", "earth science", "warming"]],
+  ["Earth Science", "Oceanography", "Ocean Currents", "Core", "Ocean currents transport heat, nutrients, and influence weather and climate systems.", ["ocean currents", "oceanography", "climate", "seas", "earth science"]],
+  ["Earth Science", "Hydrology", "Water Cycle", "Foundational", "The water cycle describes evaporation, condensation, precipitation, runoff, and groundwater movement.", ["water cycle", "hydrology", "evaporation", "precipitation", "earth science"]],
+  ["Earth Science", "Environmental Science", "Pollution", "Core", "Pollution introduces harmful substances or energy into air, water, and land systems.", ["pollution", "environmental science", "air quality", "water quality", "earth science"]],
+  ["Earth Science", "Environmental Science", "Sustainability", "Core", "Sustainability seeks long-term balance between environmental protection, human needs, and economic systems.", ["sustainability", "environment", "resources", "climate", "earth science"]],
+  ["Earth Science", "Geophysics", "Seismology", "Advanced", "Seismology studies seismic waves to understand earthquakes and Earth's internal structure.", ["seismology", "earthquakes", "waves", "geophysics", "earth science"]],
+
+  ["Technology", "Computer Science", "Algorithms", "Foundational", "Algorithms are step-by-step procedures for solving problems and processing information.", ["algorithms", "computer science", "logic", "programming", "technology"]],
+  ["Technology", "Computer Science", "Data Structures", "Core", "Data structures organize information efficiently for storage, access, and computation.", ["data structures", "computer science", "arrays", "trees", "technology"]],
+  ["Technology", "Computer Science", "Databases", "Core", "Databases store, manage, and query structured information for applications and research.", ["databases", "sql", "data", "technology", "computer science"]],
+  ["Technology", "Computer Science", "Cybersecurity", "Core", "Cybersecurity protects systems, networks, and information from digital threats and unauthorized access.", ["cybersecurity", "security", "networks", "technology", "computer science"]],
+  ["Technology", "Computer Science", "Cloud Computing", "Core", "Cloud computing delivers computing services like storage, servers, and analytics over the internet.", ["cloud computing", "servers", "internet", "technology", "software"]],
+  ["Technology", "Robotics", "Sensors", "Core", "Sensors let robotic systems detect motion, position, light, sound, and environmental conditions.", ["sensors", "robotics", "automation", "electronics", "technology"]],
+  ["Technology", "Robotics", "Control Systems", "Advanced", "Control systems regulate machine behavior using feedback, stability, and response analysis.", ["control systems", "robotics", "feedback", "automation", "technology"]],
+  ["Technology", "Biotechnology", "Synthetic Biology", "Advanced", "Synthetic biology engineers biological systems for medicine, manufacturing, and research.", ["synthetic biology", "biotechnology", "genetics", "engineering", "technology"]],
+  ["Technology", "Materials Science", "Semiconductors", "Core", "Semiconductors underpin electronics through controlled electrical conductivity in devices and circuits.", ["semiconductors", "electronics", "materials science", "technology", "chips"]],
+  ["Technology", "Materials Science", "Graphene", "Advanced", "Graphene is a two-dimensional carbon material with remarkable electrical, thermal, and mechanical properties.", ["graphene", "materials science", "carbon", "nanotechnology", "technology"]],
+  ["Technology", "Nanotechnology", "Nanoparticles", "Advanced", "Nanoparticles are nanoscale materials with applications in medicine, catalysis, imaging, and materials engineering.", ["nanoparticles", "nanotechnology", "materials", "technology", "chemistry"]],
+  ["Technology", "Data Science", "Data Visualization", "Core", "Data visualization communicates patterns, trends, and insights through charts, maps, and interactive graphics.", ["data visualization", "data science", "charts", "analytics", "technology"]]
 ];
 
 const SUBJECT_CONFIG = {
@@ -392,6 +606,18 @@ function enrichBaseEntry(entry) {
   };
 }
 
+function createExpandedTopic([subject, branch, title, level, summary, keywords]) {
+  return {
+    title,
+    subject,
+    branch,
+    level,
+    summary,
+    keywords,
+    sourceLinks: buildSourceLinks(subject, title)
+  };
+}
+
 function generateScienceDataset() {
   const generated = [];
   const subjects = Object.keys(SUBJECT_CONFIG);
@@ -418,7 +644,11 @@ function generateScienceDataset() {
     });
   });
 
-  return [...SCIENCE_BASE_DATA.map(enrichBaseEntry), ...generated];
+  return [
+    ...SCIENCE_BASE_DATA.map(enrichBaseEntry),
+    ...SCIENCE_EXPANDED_TOPICS.map(createExpandedTopic),
+    ...generated
+  ];
 }
 
 const SCIENCE_DATA = generateScienceDataset();
