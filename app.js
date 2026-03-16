@@ -12,8 +12,10 @@ const tagFilters = document.getElementById("tagFilters");
 const resultsFilters = document.getElementById("resultsFilters");
 const aiAnswerBox = document.getElementById("aiAnswerBox");
 const aiAnswerTitle = document.getElementById("aiAnswerTitle");
+const aiAnswerSource = document.getElementById("aiAnswerSource");
 const aiAnswerSummary = document.getElementById("aiAnswerSummary");
 const aiAnswerBullets = document.getElementById("aiAnswerBullets");
+const liveKnowledgeLinks = document.getElementById("liveKnowledgeLinks");
 const searchInsights = document.getElementById("searchInsights");
 const didYouMeanEl = document.getElementById("didYouMean");
 const categoryChipsEl = document.getElementById("categoryChips");
@@ -28,6 +30,7 @@ const featuredTopicsEl = document.getElementById("featuredTopics");
 const subjects = ["All", ...new Set(SCIENCE_DATA.map((item) => item.subject))];
 let activeSubject = "All";
 let query = "";
+let liveKnowledgeRequest = 0;
 
 function levenshtein(a, b) {
   const rows = a.length + 1;
@@ -297,14 +300,129 @@ function buildAiAnswer(normalizedQuery, filtered) {
   const keyTerms = [...new Set(topItems.flatMap((item) => item.keywords))].slice(0, 6);
 
   aiAnswerTitle.textContent = `AI Overview: ${titleCase(query.trim())}`;
+  aiAnswerSource.textContent = "Source: GYANI indexed knowledge";
   aiAnswerSummary.textContent = `${titleCase(query.trim())} appears most strongly in ${subjectsFound}. Based on the top indexed results, it is connected with ${branchNames || "multiple scientific areas"} and is commonly explained through core principles, definitions, and real-world applications.`;
   aiAnswerBullets.innerHTML = [
     topItems[0] ? `Best match: ${topItems[0].title}. ${topItems[0].summary}` : "",
     topItems[1] ? `Related angle: ${topItems[1].title}. ${topItems[1].summary}` : "",
     keyTerms.length ? `Key terms to explore next: ${keyTerms.join(", ")}.` : ""
   ].filter(Boolean).map((line) => `<div class="ai-bullet">${line}</div>`).join("");
+  liveKnowledgeLinks.innerHTML = "";
 
   aiAnswerBox.classList.remove("hidden");
+}
+
+function setLiveKnowledgeLoading(searchTerm) {
+  aiAnswerTitle.textContent = `AI Overview: ${titleCase(searchTerm)}`;
+  aiAnswerSource.textContent = "Source: Live knowledge lookup in progress";
+  aiAnswerSummary.textContent = "Checking live science sources for fresher information related to your search.";
+  aiAnswerBullets.innerHTML = '<div class="ai-bullet">Fetching updated explanations and research links.</div>';
+  liveKnowledgeLinks.innerHTML = "";
+  aiAnswerBox.classList.remove("hidden");
+}
+
+async function fetchWikipediaKnowledge(searchTerm) {
+  const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(searchTerm)}&utf8=&format=json&origin=*`;
+  const response = await fetch(searchUrl);
+  if (!response.ok) {
+    throw new Error("Wikipedia search failed");
+  }
+
+  const payload = await response.json();
+  const first = payload?.query?.search?.[0];
+  if (!first?.title) {
+    return null;
+  }
+
+  const summaryUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(first.title)}`;
+  const summaryResponse = await fetch(summaryUrl);
+  if (!summaryResponse.ok) {
+    throw new Error("Wikipedia summary failed");
+  }
+
+  const summaryPayload = await summaryResponse.json();
+  return {
+    title: summaryPayload.title || first.title,
+    summary: summaryPayload.extract || first.snippet || "",
+    url: summaryPayload.content_urls?.desktop?.page || `https://en.wikipedia.org/wiki/${encodeURIComponent(first.title.replace(/\s+/g, "_"))}`
+  };
+}
+
+async function fetchCrossrefKnowledge(searchTerm) {
+  const url = `https://api.crossref.org/works?rows=3&query.title=${encodeURIComponent(searchTerm)}`;
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error("Crossref failed");
+  }
+
+  const payload = await response.json();
+  const items = payload?.message?.items || [];
+  return items.slice(0, 3).map((item) => ({
+    label: item.title?.[0] || "Research paper",
+    url: item.URL || "#"
+  })).filter((item) => item.url && item.url !== "#");
+}
+
+async function refreshLiveKnowledge(searchTerm) {
+  const requestId = ++liveKnowledgeRequest;
+  const trimmed = searchTerm.trim();
+  if (!trimmed) {
+    return;
+  }
+
+  setLiveKnowledgeLoading(trimmed);
+
+  try {
+    const [wiki, papers] = await Promise.allSettled([
+      fetchWikipediaKnowledge(trimmed),
+      fetchCrossrefKnowledge(trimmed)
+    ]);
+
+    if (requestId !== liveKnowledgeRequest) {
+      return;
+    }
+
+    const wikiValue = wiki.status === "fulfilled" ? wiki.value : null;
+    const paperLinks = papers.status === "fulfilled" ? papers.value : [];
+
+    if (wikiValue) {
+      aiAnswerTitle.textContent = `Live Answer: ${wikiValue.title}`;
+      aiAnswerSource.textContent = "Source: Live Wikipedia summary + research links";
+      aiAnswerSummary.textContent = wikiValue.summary;
+      aiAnswerBullets.innerHTML = `
+        <div class="ai-bullet">Fresh topic page found for your query. This answer updates from external sources at search time.</div>
+        <div class="ai-bullet">Use the links below to continue into reference pages and research materials.</div>
+      `;
+
+      const links = [
+        { label: "Wikipedia Page", url: wikiValue.url },
+        ...paperLinks
+      ];
+
+      liveKnowledgeLinks.innerHTML = links
+        .slice(0, 5)
+        .map((link) => `<a href="${link.url}" target="_blank" rel="noreferrer">${link.label}</a>`)
+        .join("");
+      return;
+    }
+
+    if (paperLinks.length) {
+      aiAnswerSource.textContent = "Source: Live research link lookup";
+      aiAnswerSummary.textContent = "No live encyclopedia summary was found, but research links were found for this query.";
+      aiAnswerBullets.innerHTML = '<div class="ai-bullet">These research results were fetched live when you searched.</div>';
+      liveKnowledgeLinks.innerHTML = paperLinks
+        .slice(0, 5)
+        .map((link) => `<a href="${link.url}" target="_blank" rel="noreferrer">${link.label}</a>`)
+        .join("");
+    }
+  } catch (error) {
+    if (requestId !== liveKnowledgeRequest) {
+      return;
+    }
+    if (!liveKnowledgeLinks.innerHTML) {
+      aiAnswerSource.textContent = "Source: GYANI indexed knowledge";
+    }
+  }
 }
 
 function renderInsights(normalizedQuery, filtered, exactMatches) {
@@ -398,6 +516,7 @@ function renderResults() {
 
   buildAiAnswer(normalizedQuery, filtered);
   renderInsights(normalizedQuery, filtered, exactMatches);
+  refreshLiveKnowledge(query);
 
   const visibleItems = filtered.slice(0, 120);
 

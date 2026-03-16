@@ -560,6 +560,12 @@ button:hover {
   margin-bottom: 14px;
 }
 
+.ai-source {
+  margin: 0 0 10px;
+  color: var(--accent);
+  font-size: 0.88rem;
+}
+
 .ai-bullets {
   display: grid;
   gap: 10px;
