@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GYANI Science Search</title>
-  <link rel="icon" type="image/png" href="logo.png">
-  <link rel="shortcut icon" href="logo.png">
-  <link rel="apple-touch-icon" href="logo.png">
+  <link id="siteFavicon" rel="icon" type="image/png" href="./favicon.png?v=1">
+  <link rel="shortcut icon" href="./favicon.png?v=1">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png?v=1">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -155,5 +155,13 @@
 
   <script src="science-data.js"></script>
   <script src="app.js"></script>
+  <script>
+    (function () {
+      var favicon = document.getElementById("siteFavicon");
+      if (favicon) {
+        favicon.href = "./favicon.png?v=2";
+      }
+    }());
+  </script>
 </body>
 </html>
