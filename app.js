@@ -19,6 +19,9 @@ const liveKnowledgeLinks = document.getElementById("liveKnowledgeLinks");
 const searchInsights = document.getElementById("searchInsights");
 const didYouMeanEl = document.getElementById("didYouMean");
 const categoryChipsEl = document.getElementById("categoryChips");
+const imageSection = document.getElementById("imageSection");
+const imageResults = document.getElementById("imageResults");
+const imageHint = document.getElementById("imageHint");
 const resultsEl = document.getElementById("results");
 const resultsCountEl = document.getElementById("resultsCount");
 const resultsTitleEl = document.getElementById("resultsTitle");
@@ -31,6 +34,7 @@ const subjects = ["All", ...new Set(SCIENCE_DATA.map((item) => item.subject))];
 let activeSubject = "All";
 let query = "";
 let liveKnowledgeRequest = 0;
+let liveImageRequest = 0;
 
 function levenshtein(a, b) {
   const rows = a.length + 1;
@@ -507,6 +511,72 @@ function fallbackSearchLinks(searchTerm) {
   ];
 }
 
+function hideImages() {
+  imageSection.classList.add("hidden");
+  imageResults.innerHTML = "";
+  imageHint.textContent = "";
+}
+
+async function fetchWikipediaImages(searchTerm) {
+  const url = `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(searchTerm)}&gsrlimit=8&prop=pageimages|info&piprop=thumbnail&pithumbsize=480&inprop=url&format=json&origin=*`;
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error("Image lookup failed");
+  }
+
+  const payload = await response.json();
+  const pages = Object.values(payload?.query?.pages || {});
+  return pages
+    .filter((page) => page.thumbnail?.source)
+    .map((page) => ({
+      title: page.title,
+      image: page.thumbnail.source,
+      url: page.fullurl || `https://en.wikipedia.org/wiki/${encodeURIComponent(page.title.replace(/\s+/g, "_"))}`
+    }));
+}
+
+async function refreshImages(searchTerm) {
+  const requestId = ++liveImageRequest;
+  const trimmed = searchTerm.trim();
+  if (!trimmed) {
+    hideImages();
+    return;
+  }
+
+  imageSection.classList.remove("hidden");
+  imageHint.textContent = "Loading image results...";
+  imageResults.innerHTML = "";
+
+  try {
+    const images = await fetchWikipediaImages(trimmed);
+    if (requestId !== liveImageRequest) {
+      return;
+    }
+
+    if (!images.length) {
+      imageHint.textContent = "No image thumbnails were found for this search.";
+      imageResults.innerHTML = "";
+      return;
+    }
+
+    imageHint.textContent = "Live image thumbnails related to your search.";
+    imageResults.innerHTML = images.map((item) => `
+      <a class="image-card" href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer">
+        <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}">
+        <div class="image-card-body">
+          <div class="image-card-title">${escapeHtml(item.title)}</div>
+        </div>
+      </a>
+    `).join("");
+  } catch (error) {
+    if (requestId !== liveImageRequest) {
+      return;
+    }
+    imageHint.textContent = "Image results are unavailable right now.";
+    imageResults.innerHTML = "";
+  }
+}
+
 function renderResults() {
   const normalizedQuery = query.trim().toLowerCase();
   const tokens = normalizedQuery.split(/\s+/).filter(Boolean);
@@ -546,6 +616,7 @@ function renderResults() {
     searchInsights.classList.remove("hidden");
     const suggestion = suggestQuery(normalizedQuery);
     const links = fallbackSearchLinks(query.trim() || "science");
+    refreshImages(query);
     resultsEl.innerHTML = `
       <div class="empty-state">
         <p>No internal topic matched exactly, but you can continue with these live searches.</p>
@@ -567,6 +638,7 @@ function renderResults() {
   buildAiAnswer(normalizedQuery, filtered);
   renderInsights(normalizedQuery, filtered, exactMatches);
   refreshLiveKnowledge(query);
+  refreshImages(query);
 
   const visibleItems = filtered.slice(0, 120);
   resultsEl.innerHTML = visibleItems.map(renderResultCard).join("");
@@ -581,6 +653,7 @@ function showHome() {
   homeView.classList.remove("hidden");
   resultsView.classList.add("hidden");
   searchInsights.classList.add("hidden");
+  hideImages();
 }
 
 function showResults() {
