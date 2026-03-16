@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GYANI Science Search</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="shortcut icon" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -80,7 +83,16 @@
     <section id="resultsView" class="results-view hidden">
       <header class="results-topbar panel">
         <div class="results-brand">
-          <button id="homeButton" type="button" class="logo-mini" aria-label="Go to home">G</button>
+          <button id="homeButton" type="button" class="logo-mini" aria-label="Go to home">
+            <img
+              class="logo-mini-image"
+              src="logo.png"
+              alt="GYANI"
+              onload="this.nextElementSibling.style.display='none';"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"
+            >
+            <span class="logo-mini-fallback">G</span>
+          </button>
           <span>GYANI</span>
         </div>
 
@@ -117,6 +129,11 @@
             </div>
             <p id="aiAnswerSummary" class="ai-summary"></p>
             <div id="aiAnswerBullets" class="ai-bullets"></div>
+          </section>
+
+          <section id="searchInsights" class="search-insights hidden">
+            <div id="didYouMean" class="did-you-mean"></div>
+            <div id="categoryChips" class="category-chips"></div>
           </section>
 
           <div class="results-head">

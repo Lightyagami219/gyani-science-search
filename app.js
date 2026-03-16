@@ -14,6 +14,9 @@ const aiAnswerBox = document.getElementById("aiAnswerBox");
 const aiAnswerTitle = document.getElementById("aiAnswerTitle");
 const aiAnswerSummary = document.getElementById("aiAnswerSummary");
 const aiAnswerBullets = document.getElementById("aiAnswerBullets");
+const searchInsights = document.getElementById("searchInsights");
+const didYouMeanEl = document.getElementById("didYouMean");
+const categoryChipsEl = document.getElementById("categoryChips");
 const resultsEl = document.getElementById("results");
 const resultsCountEl = document.getElementById("resultsCount");
 const resultsTitleEl = document.getElementById("resultsTitle");
@@ -26,8 +29,77 @@ const subjects = ["All", ...new Set(SCIENCE_DATA.map((item) => item.subject))];
 let activeSubject = "All";
 let query = "";
 
+function levenshtein(a, b) {
+  const rows = a.length + 1;
+  const cols = b.length + 1;
+  const dp = Array.from({ length: rows }, () => Array(cols).fill(0));
+
+  for (let i = 0; i < rows; i += 1) {
+    dp[i][0] = i;
+  }
+  for (let j = 0; j < cols; j += 1) {
+    dp[0][j] = j;
+  }
+
+  for (let i = 1; i < rows; i += 1) {
+    for (let j = 1; j < cols; j += 1) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      dp[i][j] = Math.min(
+        dp[i - 1][j] + 1,
+        dp[i][j - 1] + 1,
+        dp[i - 1][j - 1] + cost
+      );
+    }
+  }
+
+  return dp[a.length][b.length];
+}
+
 function titleCase(text) {
   return text.replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+function classifyItem(item) {
+  const title = item.title.toLowerCase();
+  const text = [item.title, item.summary, ...(item.keywords || [])].join(" ").toLowerCase();
+
+  if (/(nasa|esa|isro|organization|administration|agency|spacex)/.test(text)) {
+    return "Agency";
+  }
+  if (/(mission|telescope|station|chandrayaan|hubble|jwst|mars exploration)/.test(text)) {
+    return "Mission";
+  }
+  if (/(law|effect|equilibrium|replication|photosynthesis|thermodynamics|calculus|algorithm)/.test(text)) {
+    return "Core Topic";
+  }
+  if (/(darwin|einstein|newton)/.test(title)) {
+    return "Scientist";
+  }
+  return "Topic";
+}
+
+function suggestQuery(normalizedQuery) {
+  const candidates = SCIENCE_DATA.flatMap((item) => [item.title, ...item.keywords]);
+  let best = null;
+
+  candidates.forEach((candidate) => {
+    const current = candidate.toLowerCase();
+    const distance = levenshtein(normalizedQuery, current);
+    const lengthGap = Math.abs(current.length - normalizedQuery.length);
+    if (lengthGap > 6) {
+      return;
+    }
+    if (!best || distance < best.distance) {
+      best = { value: candidate, distance };
+    }
+  });
+
+  if (!best) {
+    return "";
+  }
+
+  const threshold = Math.max(2, Math.floor(normalizedQuery.length * 0.3));
+  return best.distance <= threshold ? best.value : "";
 }
 
 function renderFilters() {
@@ -235,6 +307,27 @@ function buildAiAnswer(normalizedQuery, filtered) {
   aiAnswerBox.classList.remove("hidden");
 }
 
+function renderInsights(normalizedQuery, filtered, exactMatches) {
+  if (!normalizedQuery) {
+    searchInsights.classList.add("hidden");
+    return;
+  }
+
+  const suggestion = exactMatches.length === 0 ? suggestQuery(normalizedQuery) : "";
+  if (suggestion && suggestion.toLowerCase() !== normalizedQuery) {
+    didYouMeanEl.innerHTML = `Did you mean <button type="button" id="didYouMeanButton">${suggestion}</button>?`;
+    document.getElementById("didYouMeanButton").addEventListener("click", () => {
+      startSearch(suggestion);
+    });
+  } else {
+    didYouMeanEl.textContent = "";
+  }
+
+  const categories = [...new Set(filtered.slice(0, 12).map((item) => classifyItem(item)))];
+  categoryChipsEl.innerHTML = categories.map((category) => `<span class="category-chip">${category}</span>`).join("");
+  searchInsights.classList.remove("hidden");
+}
+
 function fallbackSearchLinks(searchTerm) {
   const encoded = encodeURIComponent(searchTerm);
   return [
@@ -282,6 +375,8 @@ function renderResults() {
 
   if (!filtered.length) {
     aiAnswerBox.classList.add("hidden");
+    searchInsights.classList.remove("hidden");
+    const suggestion = suggestQuery(normalizedQuery);
     const links = fallbackSearchLinks(query.trim() || "science");
     resultsEl.innerHTML = `
       <div class="empty-state">
@@ -291,10 +386,18 @@ function renderResults() {
         </div>
       </div>
     `;
+    didYouMeanEl.innerHTML = suggestion && suggestion.toLowerCase() !== normalizedQuery
+      ? `Did you mean <button type="button" id="didYouMeanButton">${suggestion}</button>?`
+      : "";
+    if (didYouMeanEl.querySelector("#didYouMeanButton")) {
+      didYouMeanEl.querySelector("#didYouMeanButton").addEventListener("click", () => startSearch(suggestion));
+    }
+    categoryChipsEl.innerHTML = "";
     return;
   }
 
   buildAiAnswer(normalizedQuery, filtered);
+  renderInsights(normalizedQuery, filtered, exactMatches);
 
   const visibleItems = filtered.slice(0, 120);
 
@@ -312,6 +415,7 @@ function renderResults() {
       </a>
       <p class="summary">${item.summary}</p>
       <div class="meta-list">
+        <span class="meta-chip category">${classifyItem(item)}</span>
         <span class="meta-chip">${item.level}</span>
         <span class="meta-chip">${item.branch || item.subject}</span>
         ${item.keywords.map((keyword) => `<span class="meta-chip">${keyword}</span>`).join("")}
@@ -333,6 +437,7 @@ function syncInputs(value) {
 function showHome() {
   homeView.classList.remove("hidden");
   resultsView.classList.add("hidden");
+  searchInsights.classList.add("hidden");
 }
 
 function showResults() {
